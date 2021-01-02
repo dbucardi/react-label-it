@@ -5,16 +5,20 @@ import { StyledLabelIt } from './Style';
 
 export interface LabelItProps {
   src: string;
-  children: any[];
+  children: React.ReactNode[];
+  readonly?: boolean;
+  onAdd?: (newLabel) => void;
 }
 
 const LabelIt = (props: LabelItProps) => {
-  const { src, children = [] } = props;
+  const { src, children = [], readonly = false, onAdd } = props;
 
   return (
     <StyledLabelIt>
       <ImageLayer src={src} />
-      <CanvasLayer>{children}</CanvasLayer>
+      <CanvasLayer readonly={readonly} onAdd={onAdd}>
+        {children}
+      </CanvasLayer>
     </StyledLabelIt>
   );
 };

@@ -5,20 +5,20 @@ import { TooltipWapperProps } from '../../shared/Tooltip/Tooltip';
 import { StyledRect } from '../../Style';
 
 export interface RectProps extends BaseShapeProps {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  xMin: number;
+  yMin: number;
+  xMax: number;
+  yMax: number;
   style?: CSSProperties;
   popoverProps?: TooltipWapperProps;
 }
 
 const Rect = (props: RectProps) => {
   const {
-    x,
-    y,
-    width,
-    height,
+    xMin,
+    yMin,
+    xMax,
+    yMax,
     label,
     className,
     style,
@@ -29,7 +29,9 @@ const Rect = (props: RectProps) => {
     onRemove = () => {},
   } = props;
 
-  const rect = <StyledRect x={x} y={y} width={width} height={height} className={className} style={style} />;
+  const rect = (
+    <StyledRect x={xMin} y={yMin} width={xMax - xMin} height={yMax - yMin} className={className} style={style} />
+  );
   const rectWithPopover = label ? (
     <Tooltip overlay={label} {...popoverProps}>
       {rect}
