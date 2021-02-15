@@ -21,4 +21,22 @@ export const StyledRect = styled.rect`
   stroke: red;
 `;
 
+export const StyledResizeRect = styled.rect`
+  fill: green;
+  height: 6px;
+  width: 6px;
+  &.top-left:hover {
+    cursor: se-resize;
+  }
+  &.top-right:hover {
+    cursor: sw-resize;
+  }
+  &.bottom-right:hover {
+    cursor: se-resize;
+  }
+  &.bottom-left:hover {
+    cursor: sw-resize;
+  }
+`;
+
 export const StyledTooltipContainer = styled.div``;
