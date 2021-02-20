@@ -9,24 +9,13 @@ export interface RectProps extends BaseShapeProps {
   index?: number;
   data: RectArea;
   style?: CSSProperties;
-  onRemove?: () => void;
   onSelect?: (rect: RectArea) => void;
   popoverProps?: TooltipWapperProps;
 }
 
 const Rect = (props: RectProps) => {
-  const {
-    index = 0,
-    data,
-    label,
-    className,
-    style,
-    popoverProps = {},
-    editing = false,
-    onRemove = () => {},
-    onSelect = () => {},
-  } = props;
-  const { xMin, yMin, xMax, yMax } = data;
+  const { index = 0, data, className, style, popoverProps = {}, editing = false, onSelect = () => {} } = props;
+  const { xMin, yMin, xMax, yMax, label } = data;
   const width = xMax - xMin;
   const height = yMax - yMin;
 
@@ -42,19 +31,16 @@ const Rect = (props: RectProps) => {
   };
 
   const rect = (
-    <>
-      <StyledRect
-        editing={editing}
-        x={xMin}
-        y={yMin}
-        width={width}
-        height={height}
-        className={className}
-        style={style}
-        onClick={(e) => onSelect(data)}
-      />
-      {editing ? renderResizeRects() : <></>}
-    </>
+    <StyledRect
+      editing={editing}
+      x={xMin}
+      y={yMin}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+      onClick={(e) => onSelect(data)}
+    />
   );
   const rectWithPopover = label ? (
     <Tooltip overlay={label} {...popoverProps}>
@@ -64,7 +50,12 @@ const Rect = (props: RectProps) => {
     rect
   );
 
-  return rectWithPopover;
+  return (
+    <>
+      {rectWithPopover}
+      {editing ? renderResizeRects() : <></>}
+    </>
+  );
 };
 
 export default memo(Rect);

@@ -18,13 +18,22 @@ export default function Home() {
   const handleAdd = (newLabel: RectArea) => {
     setLabels((oldLabels) => {
       const newLabels = [...oldLabels];
-      newLabels.push({ ...newLabel, id: oldLabels.length + 1 });
+      const generatedId = oldLabels.length > 0 ? Math.max(...oldLabels.map((l) => l.id)) + 1 : 1;
+      newLabels.push({ ...newLabel, id: generatedId });
       return newLabels;
     });
   };
 
   const handleSelect = (rect: RectArea) => {
     setSelectedLabel(rect);
+  };
+
+  const handleRemove = () => {
+    if (selectedLabel) {
+      setLabels((oldLabels) => {
+        return oldLabels.filter((label) => label !== selectedLabel);
+      });
+    }
   };
 
   return (
@@ -36,7 +45,11 @@ export default function Home() {
 
       <main>
         <h1 className="title">Welcome to React Label It</h1>
-        <LabelIt src={'https://cdn.pixabay.com/photo/2017/06/12/19/02/cat-2396473__480.jpg'} onAdd={handleAdd}>
+        <LabelIt
+          src={'https://cdn.pixabay.com/photo/2017/06/12/19/02/cat-2396473__480.jpg'}
+          onAdd={handleAdd}
+          onRemove={handleRemove}
+        >
           {labels.map((label: RectArea, index) => {
             return (
               <Rect
@@ -50,6 +63,7 @@ export default function Home() {
           })}
         </LabelIt>
       </main>
+      <pre>{JSON.stringify(labels)}</pre>
     </div>
   );
 }

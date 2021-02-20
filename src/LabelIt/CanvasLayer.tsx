@@ -31,6 +31,11 @@ const CanvasLayer = (props: CanvasLayerProps) => {
     return { data: { xMin, xMax, yMin, yMax, id: 0 } };
   };
 
+  const hasMininumArea = ({ xMax, xMin, yMax, yMin }: RectArea) => {
+    const min = 4;
+    return xMax - xMin > min && yMax - yMin > min;
+  };
+
   const drawingEvents = useMemo(() => {
     const onMouseDown = (e) => {
       setIsMouseDown(true);
@@ -48,7 +53,7 @@ const CanvasLayer = (props: CanvasLayerProps) => {
       resetDrawing();
       const { x: currentX, y: currentY } = getRelativeMousePosition(containerRef)(e);
       const drawingRect = getRelativeArea(currentX, currentY);
-      onAdd(drawingRect.data);
+      hasMininumArea(drawingRect.data) && onAdd(drawingRect.data);
     };
 
     const onMouseLeave = (e) => resetDrawing();
